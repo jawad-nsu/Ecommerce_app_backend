@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const consola = require('consola');
 
 const users = require('./routes/v1/users');
 
@@ -15,17 +16,17 @@ const app = express();
 //DB
 mongoose
   .connect(process.env.DATABASE)
-  .then(() => console.log('DB connected'))
-  .catch((err) => console.log('DB error ->', err));
+  .then(() => consola.success('DB connected'))
+  .catch((err) => console.fatal('DB error ->', err));
 
 //MIDDLEWARES
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(cookieParser.json());
+app.use(cookieParser());
 
 //ROUTES MIDDLEWARE
 app.use('/api/v1', users);
 
 app.listen(PORT, () => {
-  console.log('Listening on port 8000 updated');
+  consola.success('Listening on port 8000 updated');
 });
