@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const consola = require('consola');
+const expressValidator = require('express-validator');
 
 const users = require('./routes/v1/users');
 
@@ -23,6 +24,7 @@ mongoose
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(expressValidator());
 
 //ROUTES MIDDLEWARE
 app.use('/api/v1', users);
