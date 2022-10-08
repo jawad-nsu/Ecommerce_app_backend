@@ -1,4 +1,4 @@
-exports.signup = (req, res) => {
+exports.userSignupValidator = (req, res, next) => {
   req.check('name', 'Name is required').notEmpty();
   // req
   //   .check('email', 'email must be between 3 to 32 characters')
@@ -9,17 +9,13 @@ exports.signup = (req, res) => {
   //     max: 32,
   //   });
 
+  req.check('email', 'Email is required').notEmpty();
   req
     .check('email')
-    .notEmpty()
-    .withMessage('email is required')
+    .isLength({ min: 4, max: 32 })
+    .withMessage('Email must be between 4 - 32')
     .matches(/.+\@.+\..+/)
-    .withMessage('Email must contain @')
-    .isLength({
-      min: 4,
-      max: 32,
-    })
-    .withMessage('email must be between 4 - 32 chars in length');
+    .withMessage('Email must contain @');
 
   req.check('password', 'Password is required').notEmpty();
   req
@@ -34,4 +30,5 @@ exports.signup = (req, res) => {
     const firstError = errors.map((error) => error.msg)[0];
     return res.status(400).json({ error: firstError });
   }
+  next();
 };
