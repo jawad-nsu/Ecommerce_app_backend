@@ -1,11 +1,11 @@
 const debug = require('debug')('dev');
 const consola = require('consola');
 const jwt = require('jsonwebtoken');
+const { expressjwt } = require('express-jwt');
 
-const User = require('../models/users');
+const User = require('../models/user');
 const { errorHandler } = require('../helper/dbErrorHandler');
 
-//User signup
 exports.signup = (req, res) => {
   consola.info('req.body', req.body);
   const user = new User(req.body);
@@ -24,7 +24,6 @@ exports.signup = (req, res) => {
   });
 };
 
-//User signin
 exports.signin = (req, res) => {
   const { email, password } = req.body;
   User.findOne({ email }, (err, user) => {
@@ -46,7 +45,14 @@ exports.signin = (req, res) => {
     return res.status(200).json({ token, user: { _id, email, name, role } });
   });
 };
-//first check if email exists in db or not
-//then check if email exists, does it match with password or not
-//if password matches, create a jwt
-//if password doesnt match, return a error message
+
+exports.signout = (req, res) => {
+  res.clearCookie('t');
+  res.json({ message: 'Sign out successful' });
+};
+
+exports.requireSignin = expressjwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ['HS256'],
+  userProperty: 'auth',
+});

@@ -7,7 +7,8 @@ const cookieParser = require('cookie-parser');
 const consola = require('consola');
 const expressValidator = require('express-validator');
 
-const users = require('./routes/v1/users');
+const auth = require('./routes/v1/auth');
+const user = require('./routes/v1/user');
 
 const PORT = process.env.PORT || 8000;
 
@@ -27,7 +28,8 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 //ROUTES MIDDLEWARE
-app.use('/api/v1', users);
+app.use('/api/v1', auth);
+app.use('/api/v1', user);
 
 app.listen(PORT, () => {
   consola.success('Listening on port 8000 updated');
