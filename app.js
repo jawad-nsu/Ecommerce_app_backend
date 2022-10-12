@@ -19,7 +19,7 @@ const app = express();
 mongoose
   .connect(process.env.DATABASE)
   .then(() => consola.success('DB connected'))
-  .catch((err) => console.fatal('DB error ->', err));
+  .catch((err) => consola.fatal('DB error ->', err));
 
 //MIDDLEWARES
 app.use(morgan('dev'));
