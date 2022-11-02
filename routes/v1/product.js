@@ -8,6 +8,7 @@ const {
   productById,
   remove,
   update,
+  patch,
 } = require('../../controllers/product.js');
 const { userById } = require('../../controllers/user.js');
 
@@ -19,6 +20,13 @@ router.put(
   isUser,
   isAdmin,
   update
+);
+router.patch(
+  '/product/:productId/:userId',
+  requireSignin,
+  isUser,
+  isAdmin,
+  patch
 );
 router.delete(
   '/product/:productId/:userId',
