@@ -1,5 +1,5 @@
 const Product = require('../models/product.js');
-
+const fs = require('fs');
 const formidable = require('formidable');
 const { errorHandler } = require('../helper/dbErrorHandler.js');
 
