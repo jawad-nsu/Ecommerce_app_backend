@@ -57,6 +57,20 @@ exports.read = (req, res) => {
   return res.json(req.product);
 };
 
+exports.remove = (req, res) => {
+  let product = req.product;
+  product.remove((err, deleteProduct) => {
+    if (err) {
+      res.status(400).json({
+        error: 'Could not delete product',
+      });
+    }
+    res.status(200).json({
+      message: 'Product deleted successfully!',
+    });
+  });
+};
+
 exports.productById = (req, res, next, id) => {
   Product.findById(id).exec((err, product) => {
     if (err || !product) {
