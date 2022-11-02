@@ -13,8 +13,29 @@ exports.create = (req, res) => {
       });
     }
 
+    const { name, description, category, price, quantity, shipping } = fields;
+
+    if (
+      !name ||
+      !description ||
+      !category ||
+      !price ||
+      !quantity ||
+      !shipping
+    ) {
+      return res.status(400).json({
+        error: 'Missing required fields !',
+      });
+    }
+
     let product = new Product(fields);
     if (files.photo) {
+      // 2 MB = 2000000 bytes
+      if (files.photo.size > 2000000) {
+        return res.status(400).json({
+          error: 'Photo exceeds 2MB in size !!',
+        });
+      }
       product.photo.data = fs.readFileSync(files.photo.filepath);
       product.photo.contentType = files.photo.mimetype;
     }
