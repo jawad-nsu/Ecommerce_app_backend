@@ -171,3 +171,13 @@ exports.productById = (req, res, next, id) => {
     next();
   });
 };
+
+/*
+sortBy - sold
+orderBy - asc, desc
+limit - 6
+*/
+
+exports.list = (req, res) => {
+  Product.find().
+}
