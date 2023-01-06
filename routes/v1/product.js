@@ -9,6 +9,7 @@ const {
   remove,
   update,
   patch,
+  list,
 } = require('../../controllers/product.js');
 const { userById } = require('../../controllers/user.js');
 
@@ -35,6 +36,8 @@ router.delete(
   isAdmin,
   remove
 );
+
+router.get('/products', list);
 
 router.param('userId', userById);
 router.param('productId', productById);
