@@ -179,5 +179,9 @@ limit - 6
 */
 
 exports.list = (req, res) => {
-  Product.find().
-}
+  let sortBy = req.query.sortBy ?? '_id';
+  let order = req.query.order ?? 'asc';
+  let limit = req.query.limit ?? 6;
+
+  Product.find().include('-photo').where();
+};
