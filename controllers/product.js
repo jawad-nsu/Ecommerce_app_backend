@@ -183,5 +183,17 @@ exports.list = (req, res) => {
   let order = req.query.order ?? 'asc';
   let limit = req.query.limit ?? 6;
 
-  Product.find().include('-photo').where();
+  Product.find()
+    .select('-photo')
+    .populate('category')
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: 'Products not found',
+        });
+      }
+      res.send(products);
+    });
 };
