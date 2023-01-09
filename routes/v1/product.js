@@ -10,6 +10,8 @@ const {
   update,
   patch,
   list,
+  listRelated,
+  listCategories,
 } = require('../../controllers/product.js');
 const { userById } = require('../../controllers/user.js');
 
@@ -38,6 +40,10 @@ router.delete(
 );
 
 router.get('/products', list);
+
+router.get('/products/related/:productId', listRelated);
+
+router.get('/products/categories', listCategories);
 
 router.param('userId', userById);
 router.param('productId', productById);
