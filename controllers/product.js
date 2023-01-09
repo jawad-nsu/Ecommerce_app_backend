@@ -264,3 +264,11 @@ exports.listBySearch = (req, res) => {
       });
     });
 };
+
+exports.photo = (req, res) => {
+  if (req.product.photo.data) {
+    res.set('Content-Type', req.product.photo.type);
+    return res.send(req.product.photo.data);
+  }
+  next();
+};
