@@ -224,3 +224,43 @@ exports.listCategories = (req, res) => {
     res.json(category);
   });
 };
+
+exports.listBySearch = (req, res) => {
+  let order = req.body.order ?? 'asc';
+  let sortBy = req.body.sortBy ?? '_id';
+  let limit = req.body.limit ? parseInt(req.body.limit) : 6;
+  let skip = parseInt(req.body.skip);
+
+  let args = {};
+  //triverse loop for filter conditions, add them to the args object
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      if (key === 'price') {
+        args[key] = {
+          $gte: req.body.filters[key][0],
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        args[key] = req.body.filters[key];
+      }
+    }
+  }
+
+  Product.find(args)
+    .select('-photo')
+    .populate('category')
+    .sort([[sortBy, order]])
+    .skip(skip)
+    .limit(limit)
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: 'Products not found',
+        });
+      }
+      res.json({
+        size: data.length,
+        data,
+      });
+    });
+};
